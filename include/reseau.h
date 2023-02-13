@@ -10,7 +10,7 @@
 
 void tsock_construire_message(char* message, char motif, const int lg);
 
-struct sockaddr_in tsock_adresser(const tsock_config* const config);
+struct sockaddr_in* tsock_adresser(const tsock_config* const config);
 
 int tsock_socket(const tsock_config* const config, const struct sockaddr_in* const adresse);
 
