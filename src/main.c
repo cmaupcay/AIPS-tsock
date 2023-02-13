@@ -16,5 +16,5 @@ int main(const int argc, char** argv)
 	
 	free(config);
 	free(adresse);
-	return close(sock);
+	return EXIT_SUCCESS;
 }

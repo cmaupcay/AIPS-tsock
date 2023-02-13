@@ -36,36 +36,35 @@ int tsock_socket(const tsock_config* const config, const struct sockaddr_in* con
 		if (bind(sock, (const struct sockaddr*)adresse, sizeof(*adresse)) == -1)
 			TSOCK_ERREUR_SOCKET;
 	}
+	else if (config->protocole == TSOCK_TCP)
+	{
+		if (connect(sock, (const struct sockaddr*)adresse, sizeof(*adresse)) == -1)
+			TSOCK_ERREUR_SOCKET;
+	}
 	return sock;
 }
 
 unsigned int tsock_envoyer(const char* const message, const int sock, const tsock_config* const config, const struct sockaddr_in* const adresse)
 {
+	int envoyes = -1;
 	if (config->protocole == TSOCK_TCP)
-	{
-
-	}
+		envoyes = write(sock, message, config->lg_messages);
 	else
-	{
-		const int envoyes = sendto(
+	    envoyes = sendto(
 			sock, message, config->lg_messages, 0,
 			(const struct sockaddr*)adresse, sizeof(*adresse)
 		);
-		if (envoyes == -1) TSOCK_ERREUR_ENVOI;
-		return envoyes;
-	}
+	if (envoyes == -1) TSOCK_ERREUR_ENVOI;
+	return envoyes;
 }
 
 unsigned int tsock_recevoir(char* const message, const int sock, const tsock_config* const config)
 {
+	int recus = -1;
 	if (config->protocole == TSOCK_TCP)
-	{
-
-	}
+		recus = read(sock, message, config->lg_messages);
 	else
-	{
-		const int recus = recvfrom(sock, message, config->lg_messages, 0, NULL, 0);
-		if (recus == -1) TSOCK_ERREUR_RECEPTION;
-		return recus;
-	}
+		recus = recvfrom(sock, message, config->lg_messages, 0, NULL, 0);
+	if (recus == -1) TSOCK_ERREUR_RECEPTION;
+	return recus;
 }
