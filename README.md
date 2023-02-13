@@ -4,8 +4,4 @@
 
 ## Compilation
 
-Pour compiler la __V1__ du TP, utiliser la commande suivante :
-
-```bash
-gcc -Wall -o tsock tsock_v1.c
-```
+Pour compiler ___tsock___, utiliser les commandes `make` ou `make tsock`.
