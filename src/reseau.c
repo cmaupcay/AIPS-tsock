@@ -17,7 +17,7 @@ struct sockaddr_in* tsock_adresser(const tsock_config* const config)
 	{
 		const struct hostent* infos = gethostbyname(config->destinataire);
 		if (infos == NULL) TSOCK_ERREUR_SOCKET;
-		memcpy((char*)&(adresse->sin_addr.s_addr), infos->h_addr_list, infos->h_length);
+		memcpy((char*)&(adresse->sin_addr.s_addr), infos->h_addr_list[0], infos->h_length);
 	}
 	else adresse->sin_addr.s_addr = htonl(INADDR_ANY);
 	return adresse;
@@ -31,6 +31,11 @@ int tsock_socket(const tsock_config* const config, const struct sockaddr_in* con
 		0
 	);
 	if (sock == -1) TSOCK_ERREUR_SOCKET;
+	if (config->mode == TSOCK_PUITS)
+	{
+		if (bind(sock, (const struct sockaddr*)adresse, sizeof(*adresse)) == -1)
+			TSOCK_ERREUR_SOCKET;
+	}
 	return sock;
 }
 
@@ -44,7 +49,7 @@ unsigned int tsock_envoyer(const char* const message, const int sock, const tsoc
 	{
 		const int envoyes = sendto(
 			sock, message, config->lg_messages, 0,
-			(const struct sockaddr*)adresse, sizeof(struct sockaddr)
+			(const struct sockaddr*)adresse, sizeof(*adresse)
 		);
 		if (envoyes == -1) TSOCK_ERREUR_ENVOI;
 		return envoyes;

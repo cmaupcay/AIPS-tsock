@@ -8,7 +8,7 @@ LD_FLAGS=
 
 default: all
 
-all: erase tsock test
+all: erase tsock
 
 tsock: main.o
 	@mkdir -p $(BIN_DIR) ||:
@@ -29,12 +29,6 @@ pre:
 %.o: $(SRC_DIR)/%.c pre
 	@echo " + Compilation de $<..."
 	@$(CC) -o $(BUILD_DIR)/$@ -c $< $(CC_FLAGS) ||:
-
-test: test.udp
-
-test.udp: tsock
-	@echo Test de tsock avec le protocole UDP...
-	$(BIN_DIR)/tsock -up 5000 & $(BIN_DIR)/tsock -us localhost 5001
 
 clean:
 	@rm -rf $(BUILD_DIR) ||:
