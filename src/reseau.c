@@ -13,13 +13,14 @@ struct sockaddr_in tsock_adresser(const tsock_config* const config)
 	memset((char*)&adresse, 0, sizeof(adresse));
 	adresse.sin_family = AF_INET;
 	adresse.sin_port = config->port;
-	adresse.sin_addr.s_addr = INADDR_ANY;
 	if (config->mode == TSOCK_SOURCE)
 	{
 		const struct hostent* infos = gethostbyname(config->destinataire);
 		if (infos == NULL) TSOCK_ERREUR_SOCKET;
-		memcpy((char*)&(adresse.sin_addr.s_addr), infos->h_addr_list, infos->h_length);
+		printf("%s", infos->h_addr_list[0]);
+		memcpy((char*)&(adresse.sin_addr.s_addr), infos->h_addr_list[0], infos->h_length);
 	}
+	else adresse.sin_addr.s_addr = INADDR_ANY;
 	return adresse;
 }
 
@@ -31,11 +32,11 @@ int tsock_socket(const tsock_config* const config, const struct sockaddr_in* con
 		0
 	);
 	if (sock == -1) TSOCK_ERREUR_SOCKET;
-	if (config->mode == TSOCK_PUITS)
-	{
-		if (bind(sock, (const struct sockaddr*)&adresse, sizeof(adresse)) == -1)
-			TSOCK_ERREUR_SOCKET;
-	}
+	// if (config->protocole == TSOCK_TCP && config->mode == TSOCK_PUITS)
+	// {
+	// 	if (bind(sock, (const struct sockaddr*)&adresse, sizeof(adresse)) == -1)
+	// 		TSOCK_ERREUR_SOCKET;
+	// }
 	return sock;
 }
 

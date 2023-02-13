@@ -30,6 +30,12 @@ pre:
 	@echo " + Compilation de $<..."
 	@$(CC) -o $(BUILD_DIR)/$@ -c $< $(CC_FLAGS) ||:
 
+test: test.udp
+
+test.udp: tsock
+	@echo Test de tsock avec le protocole UDP...
+	$(BIN_DIR)/tsock -up 5000 & $(BIN_DIR)/tsock -us localhost 5000
+
 clean:
 	@rm -rf $(BUILD_DIR) ||:
 

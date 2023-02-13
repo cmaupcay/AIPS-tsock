@@ -12,16 +12,16 @@ void tsock_afficher_config(const tsock_config* const config)
 	{
 		printf(TSOCK_PREFIX_SOURCE);
 		printf(
-            "lg_mesg_emis=%d, port=%d, nb_envois=%d, TP=%s, dest=%s",
+            "lg_mesg_emis=%u, port=%hu, nb_envois=%u, TP=%s, dest=%s",
             config->lg_messages, config->port, config->nb_messages, tp, config->destinataire
         );
 	}
 	else
 	{
 		printf(TSOCK_PREFIX_PUITS);
-		printf("lg_mesg-lu=%d, port=%d, nb_receptions=", config->lg_messages, config->port);
+		printf("lg_mesg-lu=%u, port=%hu, nb_receptions=", config->lg_messages, config->port);
 		if (config->nb_messages == 0) printf("infini");
-		else printf("%d", config->nb_messages);
+		else printf("%u", config->nb_messages);
 		printf(", TP=%s", tp);
 	}
 	printf("\n");

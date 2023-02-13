@@ -12,7 +12,7 @@ int main(const int argc, char** argv)
 	const struct sockaddr_in adresse = tsock_adresser(config);
 	const int sock = tsock_socket(config, &adresse);
 	if (config->mode == TSOCK_PUITS) tsock_puits(config, sock);
-	else tsock_source(config, sock);
+	else tsock_source(config, sock, &adresse);
 	
 	free(config);
 	return close(sock);
