@@ -30,17 +30,25 @@ pre:
 	@echo " + Compilation de $<..."
 	@$(CC) -o $(BUILD_DIR)/$@ -c $< $(CC_FLAGS) ||:
 
-test: test.tcp test.udp
+test: test.tcp test.udp test.async
 
 test.tcp: tsock
 	@echo Test de tsock avec le protocole TCP...
-	$(BIN_DIR)/tsock -p -n 10 -l 45 7001 &
-	$(BIN_DIR)/tsock -l 45 -s localhost 7001
+	$(BIN_DIR)/tsock -p -n 10 -l 45 7000 &
+	$(BIN_DIR)/tsock -l 45 -s localhost 7000
 
 test.udp: tsock
 	@echo Test de tsock avec le protocole UDP...
-	$(BIN_DIR)/tsock -up -n 10 -l 45 7002 &
-	$(BIN_DIR)/tsock -us localhost 7002
+	$(BIN_DIR)/tsock -up -n 10 -l 45 7001 &
+	$(BIN_DIR)/tsock -us localhost 7001
+
+test.async: tsock
+	@echo Test de la gestion asynchrone des requêtes...
+	$(BIN_DIR)/tsock -l 100 -p 7003 &
+	$(BIN_DIR)/tsock -l 100 -n 100 -s localhost 7003 &
+	$(BIN_DIR)/tsock -l 100 -n 100 -s localhost 7003 &
+	$(BIN_DIR)/tsock -l 100 -n 100 -s localhost 7003 &
+	$(BIN_DIR)/tsock -l 100 -n 100 -s localhost 7003
 
 clean:
 	@rm -rf $(BUILD_DIR) ||:

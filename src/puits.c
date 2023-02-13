@@ -9,7 +9,6 @@ void tsock_puits_reception(const tsock_config* const config, const int socket, c
         tsock_afficher_message(message, config->lg_messages);
         printf("]\n");
         (*n)++;
-        printf("%d > %d\n", *n, config->nb_messages);
         if (config->nb_messages > 0 && *n > config->nb_messages) break;
     }
     close(socket);
@@ -26,7 +25,19 @@ void tsock_puits(const tsock_config* const config, const int socket)
             TSOCK_ERREUR_SOCKET;
         int sourceSocket = -1;
         while ((sourceSocket = accept(socket, NULL, 0)) != -1)
-            tsock_puits_reception(config, sourceSocket, message, &n);
+        {
+            switch (fork())
+            {
+            case -1:
+                TSOCK_ERREUR_SOCKET;
+            case 0:
+                close(socket);
+                tsock_puits_reception(config, sourceSocket, message, &n);
+                exit(0);
+            default:
+                close(sourceSocket);
+            }
+        }
 
     }
     else tsock_puits_reception(config, socket, message, &n);
