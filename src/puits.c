@@ -1,14 +1,16 @@
 #include "../include/puits.h"
 
-void tsock_puits_reception(const tsock_config* const config, const int socket, const char* const message, int* const n)
+void tsock_puits_reception(const tsock_config* const config, const int socket, char* const message, int* const n)
 {
-    while (tsock_recevoir(message, socket, config) > 0 && (config->nb_messages == 0 || (*n) < config->nb_messages))
+    while (tsock_recevoir(message, socket, config) > 0)
     {
         tsock_afficher("Réception n°", config);
         printf("%d (%d) [----%d", *n, config->lg_messages, *n);
         tsock_afficher_message(message, config->lg_messages);
         printf("]\n");
         (*n)++;
+        printf("%d > %d\n", *n, config->nb_messages);
+        if (config->nb_messages > 0 && *n > config->nb_messages) break;
     }
     close(socket);
 }

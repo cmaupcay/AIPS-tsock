@@ -43,6 +43,10 @@ void tsock_configurer(tsock_config* const config, const int argc, char* const* a
             config->protocole = TSOCK_UDP;
             break;
 
+        case 'l':
+            config->lg_messages = atoi(optarg);
+            break;
+
         default:
             break;
         }
@@ -62,4 +66,5 @@ void tsock_configurer(tsock_config* const config, const int argc, char* const* a
         }
         else TSOCK_ERREUR_USAGE;
     }
+    if (config->port < TSOCK_PORT_MIN) TSOCK_ERREUR_PORT;
 }

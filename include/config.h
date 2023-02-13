@@ -5,11 +5,12 @@
 
 #include <unistd.h>
 
-#define TSOCK_OPTIONS                       "pn:su"
+#define TSOCK_OPTIONS                       "pn:sul:"
 #define TSOCK_PROTOCOLE_PAR_DEFAUT          0
 #define TSOCK_NB_MESSAGES_PAR_DEFAUT_PUITS  0
 #define TSOCK_NB_MESSAGES_PAR_DEFAUT_SOURCE 10
 #define TSOCK_LG_MESSAGES_PAR_DEFAUT        30
+#define TSOCK_PORT_MIN                      5001
 
 typedef enum
 {

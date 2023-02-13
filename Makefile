@@ -34,11 +34,13 @@ test: test.tcp test.udp
 
 test.tcp: tsock
 	@echo Test de tsock avec le protocole TCP...
-	$(BIN_DIR)/tsock -p -n 10 7001 & $(BIN_DIR)/tsock -s localhost 7001
+	$(BIN_DIR)/tsock -p -n 10 -l 45 7001 &
+	$(BIN_DIR)/tsock -l 45 -s localhost 7001
 
 test.udp: tsock
 	@echo Test de tsock avec le protocole UDP...
-	$(BIN_DIR)/tsock -up -n 10 7002 & $(BIN_DIR)/tsock -us localhost 7002
+	$(BIN_DIR)/tsock -up -n 10 -l 45 7002 &
+	$(BIN_DIR)/tsock -us localhost 7002
 
 clean:
 	@rm -rf $(BUILD_DIR) ||:

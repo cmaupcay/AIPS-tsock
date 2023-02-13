@@ -15,4 +15,5 @@ void tsock_source(const tsock_config* const config, const int socket, const stru
 		if (motif > 'z') motif = 'a';
 	}
 	tsock_afficher("fin\n", config);
+	close(socket);
 }

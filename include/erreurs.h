@@ -6,8 +6,11 @@
 
 void tsock_erreur(const char* message);
 
-#define TSOCK_ERREUR_USAGE_MSG "Usage: tsock [-u] [-n <messages>] -p <port> | -s <dest> <port> "
+#define TSOCK_ERREUR_USAGE_MSG "Usage: tsock [-u] [-n <messages>] [-l <taille>] -p <port> | -s <dest> <port> "
 #define TSOCK_ERREUR_USAGE tsock_erreur(TSOCK_ERREUR_USAGE_MSG)
+
+#define TSOCK_ERREUR_PORT_MSG "Le port doit être supérieur à 5000 "
+#define TSOCK_ERREUR_PORT tsock_erreur(TSOCK_ERREUR_PORT_MSG)
 
 #define TSOCK_ERREUR_SOCKET_MSG "Impossible de créer le socket de connexion "
 #define TSOCK_ERREUR_SOCKET tsock_erreur(TSOCK_ERREUR_SOCKET_MSG)
