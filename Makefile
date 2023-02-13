@@ -16,8 +16,11 @@ tsock: main.o
 	@chmod +x $(BIN_DIR)/tsock
 	@echo "   tsock compilé avec succès."
 
-main.o: affichage.o
+main.o: puits.o source.o
+puits.o: affichage.o reseau.o
+source.o: affichage.o reseau.o
 affichage.o: config.o
+reseau.o: config.o
 config.o: erreurs.o
 
 pre:

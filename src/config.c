@@ -1,8 +1,5 @@
 #include "../include/config.h"
 
-#include <stdlib.h>
-#include <unistd.h>
-
 tsock_config* tsock_creer_config()
 {
     tsock_config* config = (tsock_config*)malloc(sizeof(tsock_config));

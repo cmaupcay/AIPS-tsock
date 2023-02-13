@@ -3,6 +3,8 @@
 
 #include "erreurs.h"
 
+#include <unistd.h>
+
 #define TSOCK_OPTIONS                       "pn:su"
 #define TSOCK_PROTOCOLE_PAR_DEFAUT          0
 #define TSOCK_NB_MESSAGES_PAR_DEFAUT_PUITS  0

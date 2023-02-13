@@ -1,10 +1,8 @@
 #include "../include/affichage.h"
 
-#include <stdio.h>
-
-void tsock_afficher(const char* message, const tsock_config* const config)
+void tsock_afficher(const char* const message, const tsock_config* const config)
 {
-    printf("%s%s\n", config->mode == TSOCK_PUITS ? TSOCK_PREFIX_PUITS : TSOCK_PREFIX_SOURCE, message);
+    printf("%s%s", config->mode == TSOCK_PUITS ? TSOCK_PREFIX_PUITS : TSOCK_PREFIX_SOURCE, message);
 }
 
 void tsock_afficher_config(const tsock_config* const config)
@@ -27,4 +25,11 @@ void tsock_afficher_config(const tsock_config* const config)
 		printf(", TP=%s", tp);
 	}
 	printf("\n");
+}
+
+void tsock_afficher_message(const char* const message, const int lg)
+{
+	int i;
+	for (i = 0;i < lg; i++)
+        printf("%c", message[i]);
 }
