@@ -6,9 +6,9 @@ CC=gcc
 CC_FLAGS=-Wall
 LD_FLAGS=
 
-default: tsock
+default: all
 
-all: erase tsock
+all: erase tsock test
 
 tsock: main.o
 	@mkdir -p $(BIN_DIR) ||:
