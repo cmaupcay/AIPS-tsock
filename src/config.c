@@ -8,6 +8,7 @@ tsock_config* tsock_creer_config()
     config->nb_messages = 0;
     config->lg_messages = TSOCK_LG_MESSAGES_PAR_DEFAUT;
     config->destinataire = NULL;
+    config->async = 0;
     return config;
 }
 
@@ -45,6 +46,10 @@ void tsock_configurer(tsock_config* const config, const int argc, char* const* a
 
         case 'l':
             config->lg_messages = atoi(optarg);
+            break;
+
+        case 'a':
+            config->async = 1;
             break;
 
         default:

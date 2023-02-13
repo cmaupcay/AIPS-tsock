@@ -5,7 +5,7 @@
 
 #include <unistd.h>
 
-#define TSOCK_OPTIONS                       "pn:sul:"
+#define TSOCK_OPTIONS                       "pn:sul:a"
 #define TSOCK_PROTOCOLE_PAR_DEFAUT          0
 #define TSOCK_NB_MESSAGES_PAR_DEFAUT_PUITS  0
 #define TSOCK_NB_MESSAGES_PAR_DEFAUT_SOURCE 10
@@ -33,6 +33,7 @@ typedef struct
     unsigned int lg_messages;
     unsigned short port;
     const char* destinataire;
+    unsigned short async;
 } tsock_config;
 
 tsock_config* tsock_creer_config();

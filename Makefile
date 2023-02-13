@@ -44,7 +44,7 @@ test.udp: tsock
 
 test.async: tsock
 	@echo Test de la gestion asynchrone des requêtes...
-	$(BIN_DIR)/tsock -l 100 -p 7003 &
+	$(BIN_DIR)/tsock -a -l 100 -p 7003 &
 	$(BIN_DIR)/tsock -l 100 -n 100 -s localhost 7003 &
 	$(BIN_DIR)/tsock -l 100 -n 100 -s localhost 7003 &
 	$(BIN_DIR)/tsock -l 100 -n 100 -s localhost 7003 &

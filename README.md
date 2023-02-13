@@ -55,6 +55,7 @@ Les options suivantes sont aussi disponibles :
 
 - __-u :__ utilisation du protocole _UDP_ plutôt que _TCP_ ;
 - __-l \<_taille_\> :__ surcharge de la taille des messages échangés ;
-- __-n \<_messages_\> :__ surcharge du nombre de messages envoyés pour la [source](#mode-source) et de messages reçus pour le [puits](#mode-puits).
+- __-n \<_messages_\> :__ surcharge du nombre de messages envoyés pour la [source](#mode-source) et de messages reçus pour le [puits](#mode-puits) ;
+- __-a :__ gestion asynchrone des requêtes (_en mode [puits](#mode-puits) seulement_).
 
 > __Dépôt :__ [github.com/tensaiji/AIPS-tsock](https://github.com/tensaiji/AIPS-tsock/)

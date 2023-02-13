@@ -26,7 +26,9 @@ void tsock_puits(const tsock_config* const config, const int socket)
         int sourceSocket = -1;
         while ((sourceSocket = accept(socket, NULL, 0)) != -1)
         {
-            switch (fork())
+            if (config->async == 0)
+                tsock_puits_reception(config, sourceSocket, message, &n);
+            else switch (fork())
             {
             case -1:
                 TSOCK_ERREUR_SOCKET;
