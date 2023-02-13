@@ -1,20 +1,30 @@
+INCLUDE_DIR=include
+SRC_DIR=src
+BIN_DIR=bin
+BUILD_DIR=build
+CC=gcc
+CC_FLAGS=-Wall
+
 default: tsock
 
 all: erase tsock
 
-tsock: tsock_v1.o
-	@mkdir -p bin ||:
-	@gcc -o bin/tsock build/tsock_v1.o ||:
-	@chmod +x bin/tsock
+tsock: main.o
+	@mkdir -p $(BIN_DIR) ||:
+	@$(CC) -o $(BIN_DIR)/tsock $(BUILD_DIR)/main.o $(GCC_FLAGS) ||:
+	@chmod +x $(BIN_DIR)/tsock
+	@echo "   tsock compilé avec succès."
 
-tsock_v1.o:
-	@echo Compilation de la version 1...
-	@mkdir -p build ||:
-	@gcc -o build/tsock_v1.o -c tsock_v1.c -Wall ||:
+pre:
+	@mkdir -p $(BUILD_DIR) ||:
+
+%.o: $(SRC_DIR)/%.c pre
+	@echo " + Compilation de $<..."
+	@$(CC) -o $(BUILD_DIR)/$@ -c $< $(GCC_FLAGS) ||:
 
 clean:
-	@rm -rf build ||:
+	@rm -rf $(BUILD_DIR) ||:
 
 erase: clean
-	@rm -rf bin ||:
-	@echo Répertoire nettoyé.
+	@rm -rf $(BIN_DIR) ||:
+	@echo " - Répertoire nettoyé."
