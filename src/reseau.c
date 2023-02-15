@@ -1,9 +1,9 @@
 #include "../include/reseau.h"
-#include <errno.h>
+
 void tsock_construire_message(char* message, char motif, const int lg)
 {
 	int i;
-	for (i = 0; i < lg; i++)
+	for (i = 0; i < lg + 1; i++)
 		message[i] = motif;
 }
 
@@ -16,30 +16,30 @@ struct sockaddr_in* tsock_adresser(const tsock_config* const config)
 	if (config->mode == TSOCK_SOURCE)
 	{
 		const struct hostent* infos = gethostbyname(config->destinataire);
-		if (infos == NULL) TSOCK_ERREUR_SOCKET;
+		if (infos == NULL) TSOCK_ERREUR_DEBUT;
 		memcpy((char*)&(adresse->sin_addr.s_addr), infos->h_addr_list[0], infos->h_length);
 	}
 	else adresse->sin_addr.s_addr = htonl(INADDR_ANY);
 	return adresse;
 }
 
-int tsock_socket(const tsock_config* const config, const struct sockaddr_in* const adresse)
+int tsock_debut(const tsock_config* const config, const struct sockaddr_in* const adresse)
 {
 	const int sock = socket(
 		AF_INET,
 		config->protocole == TSOCK_TCP ? SOCK_STREAM : SOCK_DGRAM,
 		0
 	);
-	if (sock == -1) TSOCK_ERREUR_SOCKET;
+	if (sock == -1) TSOCK_ERREUR_DEBUT;
 	if (config->mode == TSOCK_PUITS)
 	{
 		if (bind(sock, (const struct sockaddr*)adresse, sizeof(*adresse)) == -1)
-			TSOCK_ERREUR_SOCKET;
+			TSOCK_ERREUR_DEBUT;
 	}
 	else if (config->protocole == TSOCK_TCP)
 	{
 		if (connect(sock, (const struct sockaddr*)adresse, sizeof(*adresse)) == -1)
-			TSOCK_ERREUR_SOCKET;
+			TSOCK_ERREUR_DEBUT;
 	}
 	return sock;
 }
@@ -67,4 +67,15 @@ unsigned int tsock_recevoir(char* const message, const int sock, const tsock_con
 		recus = recvfrom(sock, message, config->lg_messages, 0, NULL, 0);
 	if (recus == -1) TSOCK_ERREUR_RECEPTION;
 	return recus;
+}
+
+void tsock_fin(const int sock, const tsock_config* const config)
+{
+	if (close(sock) == 0)
+	{
+		tsock_afficher("Connexion avec ", config);
+		printf(config->mode == TSOCK_SOURCE ? "le puit" : "la source");
+		printf(" (%d) terminée.\n", sock);
+	}
+	else TSOCK_ERREUR_FIN;
 }

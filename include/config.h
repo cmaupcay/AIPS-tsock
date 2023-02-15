@@ -11,6 +11,7 @@
 #define TSOCK_NB_MESSAGES_PAR_DEFAUT_SOURCE 10
 #define TSOCK_LG_MESSAGES_PAR_DEFAUT        30
 #define TSOCK_PORT_MIN                      5001
+#define TSOCK_DESTINATAIRE_PAR_DEFAUT       "localhost"
 
 typedef enum
 {

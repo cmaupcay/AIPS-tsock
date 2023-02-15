@@ -69,6 +69,11 @@ void tsock_configurer(tsock_config* const config, const int argc, char* const* a
             config->destinataire = argv[optind];
             config->port = atoi(argv[optind + 1]);
         }
+        else if (optind < argc)
+        {
+            config->destinataire = TSOCK_DESTINATAIRE_PAR_DEFAUT;
+            config->port = atoi(argv[optind]);
+        }
         else TSOCK_ERREUR_USAGE;
     }
     if (config->port < TSOCK_PORT_MIN) TSOCK_ERREUR_PORT;

@@ -5,6 +5,7 @@ BUILD_DIR=build
 CC=gcc
 CC_FLAGS=-Wall
 LD_FLAGS=
+TEST_PORT=9900
 
 default: all
 
@@ -34,21 +35,31 @@ test: test.tcp test.udp test.async
 
 test.tcp: tsock
 	@echo Test de tsock avec le protocole TCP...
-	$(BIN_DIR)/tsock -p -n 10 -l 45 7000 &
-	$(BIN_DIR)/tsock -l 45 -s localhost 7000
+	$(BIN_DIR)/tsock -p -n 10 -l 45 $(TEST_PORT) &
+	$(BIN_DIR)/tsock -l 45 -s $(TEST_PORT)
 
 test.udp: tsock
 	@echo Test de tsock avec le protocole UDP...
-	$(BIN_DIR)/tsock -up -n 10 -l 45 7001 &
-	$(BIN_DIR)/tsock -us localhost 7001
+	$(BIN_DIR)/tsock -up -n 10 -l 45 $(TEST_PORT) &
+	$(BIN_DIR)/tsock -us $(TEST_PORT)
 
-test.async: tsock
-	@echo Test de la gestion asynchrone des requêtes...
-	$(BIN_DIR)/tsock -a -l 100 -p 7003 &
-	$(BIN_DIR)/tsock -l 100 -n 100 -s localhost 7003 &
-	$(BIN_DIR)/tsock -l 100 -n 100 -s localhost 7003 &
-	$(BIN_DIR)/tsock -l 100 -n 100 -s localhost 7003 &
-	$(BIN_DIR)/tsock -l 100 -n 100 -s localhost 7003
+test.async: test.async.tcp test.async.udp
+
+test.async.tcp: tsock
+	@echo Test de la gestion asynchrone des requêtes TCP...
+	$(BIN_DIR)/tsock -a -l 100 -p $(TEST_PORT) &
+	# $(BIN_DIR)/tsock -l 100 -n 100 -s $(TEST_PORT) &
+	# $(BIN_DIR)/tsock -l 100 -n 100 -s $(TEST_PORT) &
+	# $(BIN_DIR)/tsock -l 100 -n 100 -s $(TEST_PORT) &
+	$(BIN_DIR)/tsock -l 100 -n 100 -s $(TEST_PORT)
+
+test.async.udp: tsock
+	@echo Test de la gestion asynchrone des requêtes UDP...
+	$(BIN_DIR)/tsock -a -l 100 -u -p $(TEST_PORT) &
+	# $(BIN_DIR)/tsock -l 100 -u -n 100 -s $(TEST_PORT) &
+	# $(BIN_DIR)/tsock -l 100 -u -n 100 -s $(TEST_PORT) &
+	# $(BIN_DIR)/tsock -l 100 -u -n 100 -s $(TEST_PORT) &
+	$(BIN_DIR)/tsock -l 100 -u -n 100 -s $(TEST_PORT)
 
 clean:
 	@rm -rf $(BUILD_DIR) ||:
