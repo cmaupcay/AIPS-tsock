@@ -13,7 +13,7 @@
 
 ## Compilation
 
-L'ensemble des cibles disponibles sont détaillées dans le fichier `Makefile`. Vous pouvez compiler les cibles principales avec `make` ou `make all`.
+L'ensemble des cibles disponibles sont détaillées dans le fichier `Makefile`. Vous pouvez compiler les cibles principales avec `make` ou `make all`. L'exécutable _`tsock`_ est alors généré dans le dossier `bin`.
 
 ### Exécutable seulement
 
